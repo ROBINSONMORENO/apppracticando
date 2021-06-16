@@ -11,6 +11,9 @@ using Microsoft.Extensions.Hosting;
 using apppracticando.Models;
 using Microsoft.EntityFrameworkCore;
 using apppracticando.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+
 
 namespace apppracticando
 {
@@ -30,6 +33,11 @@ namespace apppracticando
 
             services.AddDbContext<ApppracticandoDbContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("PostgressConnection")));   
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApppracticandoDbContext>()
+                    .AddDefaultTokenProviders();
+                     app.UseAuthentication();
 
 
 
@@ -52,6 +60,7 @@ namespace apppracticando
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
